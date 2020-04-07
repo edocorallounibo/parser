@@ -17,7 +17,7 @@ from logparser import Spell
 #from logparser import SHISO
 #from logparser import SLCT
 
-#un po' di cli
+#CLI
 parser=argparse.ArgumentParser()
 group=parser.add_mutually_exclusive_group()
 group.add_argument("-f","--frontend",action="store_true",help="Used if you want to parse a storm-frontend log file.")
@@ -25,7 +25,6 @@ group.add_argument("-b","--backend",action="store_true",help="Used if you want t
 parser.add_argument("log_file",type=str,help="Name of the file you want to parse.")
 args=parser.parse_args()
 
-#variabili globali
 input_dir = '../storm-t3/'
 log_file=args.log_file
 if args.frontend:
@@ -176,9 +175,7 @@ if args.frontend:
 
     comp_eid={}
     abnormal={}
-    #Associa le componenti(?)(tipo '[9d58ad19-c19c-457d-b5eb-18ead4c239b0]') a tutti i tipi di messaggio,
-    # codificati da event_dict
-
+    #Associates components(?)(like '[9d58ad19-c19c-457d-b5eb-18ead4c239b0]') to all message types in event_dict
     for i in comp.index:
         if comp[i] not in comp_eid.keys():
             comp_eid[comp[i]]=[event_dict.get(eid[i])]

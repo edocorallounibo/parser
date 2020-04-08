@@ -158,7 +158,7 @@ parser_Spell.parse(log_file)
 #parser_LogSig.parse(log_file)
 
 #CONVERSION TO SEQUENCES
-df = pd.read_csv("~/Documents/tesi/logparser/principale/Spell_result/{}_structured.csv".format(log_file))#
+df = pd.read_csv("/cont/logparser/parser/Spell_result/{}_structured.csv".format(log_file))#
 if args.frontend:
     eid = df.loc[:,"EventId"]
     comp = df.loc[:,"Component"]

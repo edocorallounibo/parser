@@ -187,7 +187,7 @@ if args.frontend:
             if comp[i] in comp_eid:
                 abnormal[comp[i]]=comp_eid[comp[i]]
                 del comp_eid[comp[i]]
-    file=open("{}_train".format(log_file),"w")
+    file=open("/cont/DeepLog_no_tensorboard/data/{}_train".format(log_file),"w")
     for x in comp_eid.keys():
         if (len(comp_eid[x])>=10):
             for i in range(len(comp_eid[x])): 
@@ -196,7 +196,7 @@ if args.frontend:
             file.write("\n")
     file.close()
 
-    file=open("{}_abonormal".format(log_file),"w")
+    file=open("/cont/DeepLog_no_tensorboard/data/{}_abonormal".format(log_file),"w")
     for x in abnormal.keys():
         for i in range(len(abnormal[x])):
             file.write(str(abnormal[x][i]))

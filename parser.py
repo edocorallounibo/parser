@@ -174,7 +174,7 @@ if args.frontend:
         uniq_event = []
     #Translates Event_id's hex to integer depending on the order of appearance
     for x in eid:
-        if x not in seen_event:
+        if x not in uniq_event:
             uniq_event.append(x)
     event_dict = {uniq_event[i] : i+1  for i in range (0,len(uniq_event))}
     file_out=open("{}_uniq_event.pickle".format(log_file),"wb")

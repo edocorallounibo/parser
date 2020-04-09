@@ -160,13 +160,13 @@ parser_Spell.parse(log_file)
 #parser_LogSig.parse(log_file)
 
 #CONVERSION TO SEQUENCES
-df = pd.read_csv("~/cont/logparser/parser/Spell_result/{}_structured.csv".format(log_file))#
+df = pd.read_csv("/cont/logparser/parser/Spell_result/{}_structured.csv".format(log_file))#
 if args.frontend:
     eid = df.loc[:,"EventId"]
     comp = df.loc[:,"Component"]
     pid = df.loc[:,"Pid"]
     level=df.loc[:,"Level"]
-    if os.path.isfile("~/cont/logparser/parser/{}_uniq_event.pickle".format(log_file)):
+    if os.path.isfile("/cont/logparser/parser/{}_uniq_event.pickle".format(log_file)):
         file_in=open("{}_uniq_event.pickle".format(log_file),"rb")
         uniq_event=pickle.load(file_in)
         file_in.close()

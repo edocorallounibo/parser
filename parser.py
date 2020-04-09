@@ -2,6 +2,8 @@
 import sys
 sys.path.append('../')
 import argparse
+import os
+import pickle
 import pandas as pd
 from logparser import Spell
 #from logparser import AEL
@@ -25,7 +27,7 @@ group.add_argument("-b","--backend",action="store_true",help="Used if you want t
 parser.add_argument("log_file",type=str,help="Name of the file you want to parse.")
 args=parser.parse_args()
 
-input_dir = '/home/edoardo/storm-t3'
+input_dir = '/home/ATLAS-T3/edocorallo/storm-t3/'
 log_file=args.log_file
 if args.frontend:
         print("Parsing {} as a frontend log file..".format(log_file))
@@ -158,21 +160,26 @@ parser_Spell.parse(log_file)
 #parser_LogSig.parse(log_file)
 
 #CONVERSION TO SEQUENCES
-df = pd.read_csv("/cont/logparser/parser/Spell_result/{}_structured.csv".format(log_file))#
+df = pd.read_csv("~/cont/logparser/parser/Spell_result/{}_structured.csv".format(log_file))#
 if args.frontend:
     eid = df.loc[:,"EventId"]
     comp = df.loc[:,"Component"]
     pid = df.loc[:,"Pid"]
     level=df.loc[:,"Level"]
-    seen_event = set()
-    uniq_event = []
+    if os.path.isfile("~/cont/logparser/parser/{}_uniq_event.pickle".format(log_file)):
+        file_in=open("{}_uniq_event.pickle".format(log_file),"rb")
+        uniq_event=pickle.load(file_in)
+        file_in.close()
+    else:
+        uniq_event = []
     #Translates Event_id's hex to integer depending on the order of appearance
     for x in eid:
         if x not in seen_event:
             uniq_event.append(x)
-            seen_event.add(x)
     event_dict = {uniq_event[i] : i+1  for i in range (0,len(uniq_event))}
-
+    file_out=open("{}_uniq_event.pickle".format(log_file),"wb")
+    pickle.dump(uniq_event,file_out)
+    file_out.close()
     comp_eid={}
     abnormal={}
     #Associates components(?)(like '[9d58ad19-c19c-457d-b5eb-18ead4c239b0]') to all message types in event_dict
@@ -187,7 +194,7 @@ if args.frontend:
             if comp[i] in comp_eid:
                 abnormal[comp[i]]=comp_eid[comp[i]]
                 del comp_eid[comp[i]]
-    file=open("/cont/DeepLog_no_tensorboard/data/{}_train".format(log_file),"w")
+    file=open("/home/ATLAS-T3/edocorallo/cont/DeepLog_no_tensorboard/data/{}_train".format(log_file),"w")
     for x in comp_eid.keys():
         if (len(comp_eid[x])>=10):
             for i in range(len(comp_eid[x])): 
@@ -196,7 +203,7 @@ if args.frontend:
             file.write("\n")
     file.close()
 
-    file=open("/cont/DeepLog_no_tensorboard/data/{}_abonormal".format(log_file),"w")
+    file=open("/home/ATLAS-T3/edocorallo/cont/DeepLog_no_tensorboard/data/{}_abonormal".format(log_file),"w")
     for x in abnormal.keys():
         for i in range(len(abnormal[x])):
             file.write(str(abnormal[x][i]))

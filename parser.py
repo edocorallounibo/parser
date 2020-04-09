@@ -160,13 +160,13 @@ parser_Spell.parse(log_file)
 #parser_LogSig.parse(log_file)
 
 #CONVERSION TO SEQUENCES
-df = pd.read_csv("/cont/logparser/parser/Spell_result/{}_structured.csv".format(log_file))#
+df = pd.read_csv("/container/logparser/parser/Spell_result/{}_structured.csv".format(log_file))#
 if args.frontend:
     eid = df.loc[:,"EventId"]
     comp = df.loc[:,"Component"]
     pid = df.loc[:,"Pid"]
     level=df.loc[:,"Level"]
-    if os.path.isfile("/cont/logparser/parser/{}_uniq_event.pickle".format(log_file)):
+    if os.path.isfile("/container/logparser/parser/{}_uniq_event.pickle".format(log_file)):
         file_in=open("{}_uniq_event.pickle".format(log_file),"rb")
         uniq_event=pickle.load(file_in)
         file_in.close()
@@ -194,7 +194,7 @@ if args.frontend:
             if comp[i] in comp_eid:
                 abnormal[comp[i]]=comp_eid[comp[i]]
                 del comp_eid[comp[i]]
-    file=open("/home/ATLAS-T3/edocorallo/cont/DeepLog_no_tensorboard/data/{}_train".format(log_file),"w")
+    file=open("/container/DeepLog_no_tensorboard/data/{}_train".format(log_file),"w")
     for x in comp_eid.keys():
         if (len(comp_eid[x])>=10):
             for i in range(len(comp_eid[x])): 
@@ -203,7 +203,7 @@ if args.frontend:
             file.write("\n")
     file.close()
 
-    file=open("/home/ATLAS-T3/edocorallo/cont/DeepLog_no_tensorboard/data/{}_abonormal".format(log_file),"w")
+    file=open("/container/DeepLog_no_tensorboard/data/{}_abonormal".format(log_file),"w")
     for x in abnormal.keys():
         for i in range(len(abnormal[x])):
             file.write(str(abnormal[x][i]))

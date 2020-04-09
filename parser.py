@@ -25,7 +25,7 @@ group.add_argument("-b","--backend",action="store_true",help="Used if you want t
 parser.add_argument("log_file",type=str,help="Name of the file you want to parse.")
 args=parser.parse_args()
 
-input_dir = '../storm-t3'
+input_dir = '/home/edoardo/storm-t3'
 log_file=args.log_file
 if args.frontend:
         print("Parsing {} as a frontend log file..".format(log_file))

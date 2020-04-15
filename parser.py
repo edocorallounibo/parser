@@ -27,7 +27,7 @@ group.add_argument("-b","--backend",action="store_true",help="Used if you want t
 parser.add_argument("log_file",type=str,help="Name of the file you want to parse.")
 args=parser.parse_args()
 
-input_dir = '/home/ATLAS-T3/edocorallo/storm-t3/'
+input_dir = '/container/logfiles'
 log_file=args.log_file
 if args.frontend:
         print("Parsing {} as a frontend log file..".format(log_file))
@@ -166,8 +166,8 @@ if args.frontend:
     comp = df.loc[:,"Component"]
     pid = df.loc[:,"Pid"]
     level=df.loc[:,"Level"]
-    if os.path.isfile("/container/logparser/parser/{}_uniq_event.pickle".format(log_file)):
-        file_in=open("{}_uniq_event.pickle".format(log_file),"rb")
+    if os.path.isfile("/container/logfiles/{}_uniq_event.pickle".format(log_file)):
+        file_in=open("/container/logfiles/{}_uniq_event.pickle".format(log_file),"rb")
         uniq_event=pickle.load(file_in)
         file_in.close()
     else:
@@ -177,7 +177,7 @@ if args.frontend:
         if x not in uniq_event:
             uniq_event.append(x)
     event_dict = {uniq_event[i] : i+1  for i in range (0,len(uniq_event))}
-    file_out=open("{}_uniq_event.pickle".format(log_file),"wb")
+    file_out=open("/container/logfiles/{}_uniq_event.pickle".format(log_file),"wb")
     pickle.dump(uniq_event,file_out)
     file_out.close()
     comp_eid={}

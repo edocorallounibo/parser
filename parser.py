@@ -166,8 +166,8 @@ if args.frontend:
     comp = df.loc[:,"Component"]
     pid = df.loc[:,"Pid"]
     level=df.loc[:,"Level"]
-    if os.path.isfile("/container/logfiles/{}_uniq_event.pickle".format(log_file)):
-        file_in=open("/container/logfiles/{}_uniq_event.pickle".format(log_file),"rb")
+    if os.path.isfile("/home/ATLAS-T3/edocorallo/storm-t3/{}_uniq_event.pickle".format(log_file)):
+        file_in=open("/home/ATLAS-T3/edocorallo/storm-t3/{}_uniq_event.pickle".format(log_file),"rb")
         uniq_event=pickle.load(file_in)
         file_in.close()
     else:
@@ -177,7 +177,7 @@ if args.frontend:
         if x not in uniq_event:
             uniq_event.append(x)
     event_dict = {uniq_event[i] : i+1  for i in range (0,len(uniq_event))}
-    file_out=open("/container/logfiles/{}_uniq_event.pickle".format(log_file),"wb")
+    file_out=open("/home/ATLAS-T3/edocorallo/storm-t3/{}_uniq_event.pickle".format(log_file),"wb")
     pickle.dump(uniq_event,file_out)
     file_out.close()
     comp_eid={}

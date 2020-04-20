@@ -27,15 +27,20 @@ group.add_argument("-b","--backend",action="store_true",help="Used if you want t
 parser.add_argument("log_file",type=str,help="Name of the file you want to parse.")
 args=parser.parse_args()
 
-input_dir = '/home/ATLAS-T3/edocorallo/storm-t3/'
+input_dir = '/home/edocorallo/logfiles/'
 log_file=args.log_file
 if args.frontend:
+        log_type="storm-frontend"
+        input_dir = '/home/edocorallo/logfiles/frontend-server/'
         print("Parsing {} as a frontend log file..".format(log_file))
         log_format = '<Date> <Time> <Pid> - <Level> <Component>: <Content>'#Frontend logformat
 elif args.backend:
+        log_type="storm-backend"
+        input_dir = '/home/edocorallo/logfiles/backend-server'
         print("Parsing {} as a backend log file..".format(log_file))
         log_format = '<Time> - <Level> <Component> - <Content>'#Backend logformat
 else:
+        log_type= input("Please specify a log_type:\n")
      	log_format=input("Please, specify a log format:\n")
 
 #Spell----------------------------------------------------
@@ -166,8 +171,8 @@ if args.frontend:
     comp = df.loc[:,"Component"]
     pid = df.loc[:,"Pid"]
     level=df.loc[:,"Level"]
-    if os.path.isfile("/home/ATLAS-T3/edocorallo/storm-t3/{}_uniq_event.pickle".format(log_file)):
-        file_in=open("/home/ATLAS-T3/edocorallo/storm-t3/{}_uniq_event.pickle".format(log_file),"rb")
+    if os.path.isfile("/home/edocorallo/logfiles/frontend-server/{}_uniq_event.pickle".format(log_type)):
+        file_in=open("/home/edocorallo/logfiles/frontend-server/{}_uniq_event.pickle".format(log_type),"rb")
         uniq_event=pickle.load(file_in)
         file_in.close()
     else:
@@ -177,7 +182,7 @@ if args.frontend:
         if x not in uniq_event:
             uniq_event.append(x)
     event_dict = {uniq_event[i] : i+1  for i in range (0,len(uniq_event))}
-    file_out=open("/home/ATLAS-T3/edocorallo/storm-t3/{}_uniq_event.pickle".format(log_file),"wb")
+    file_out=open("/home/edocorallo/logfiles/frontend-server/{}_uniq_event.pickle".format(log_type),"wb")
     pickle.dump(uniq_event,file_out)
     file_out.close()
     comp_eid={}
@@ -194,7 +199,7 @@ if args.frontend:
             if comp[i] in comp_eid:
                 abnormal[comp[i]]=comp_eid[comp[i]]
                 del comp_eid[comp[i]]
-    file=open("/container/DeepLog_no_tensorboard/data/{}_train".format(log_file),"w")
+    file=open("/container/DeepLog_no_tensorboard/data/{}_normal".format(log_file),"w")
     for x in comp_eid.keys():
         if (len(comp_eid[x])>=10):
             for i in range(len(comp_eid[x])): 
@@ -208,7 +213,8 @@ if args.frontend:
         for i in range(len(abnormal[x])):
             file.write(str(abnormal[x][i]))
             file.write(" ")
-    file.write("\n")
+        file.write("\n")
+    file.close()
     
 else:
     print("WIP")    

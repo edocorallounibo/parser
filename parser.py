@@ -27,16 +27,15 @@ group.add_argument("-b","--backend",action="store_true",help="Used if you want t
 parser.add_argument("log_file",type=str,help="Name of the file you want to parse.")
 args=parser.parse_args()
 
-input_dir = '/home/edocorallo/logfiles/'
 log_file=args.log_file
 if args.frontend:
         log_type="storm-frontend"
-        input_dir = '/home/edocorallo/logfiles/frontend-server/'
+        input_dir = '../logfiles/frontend-server/'
         print("Parsing {} as a frontend log file..".format(log_file))
         log_format = '<Date> <Time> <Pid> - <Level> <Component>: <Content>'#Frontend logformat
 elif args.backend:
         log_type="storm-backend"
-        input_dir = '/home/edocorallo/logfiles/backend-server'
+        input_dir = '../logfiles/backend-server'
         print("Parsing {} as a backend log file..".format(log_file))
         log_format = '<Time> - <Level> <Component> - <Content>'#Backend logformat
 else:

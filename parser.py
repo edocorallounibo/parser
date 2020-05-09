@@ -45,7 +45,12 @@ else:
 
 #Spell----------------------------------------------------
 tau        = 0.5  # Message type threshold (default: 0.5)
-regex_Spell	 = []  # Regular expression list for optional preprocessing (default: [])
+regex_Spell = [
+        r'((?<=[^A-Za-z0-9])|^)((\w{1,4}(\.|:+)){3,8}\w{1,4})((?=[^A-Za-z0-9])|$)',#IP
+        r'(\w*)(\/\w+(=|\s)\w+\s?)+|: (\w+ (\w+ ?)+)',#Client DN
+        r'\w+://.+(\. )',#URLS
+        r'(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})'#token
+               ]  # Regular expression list for optional preprocessing (default: [])
 output_dir_Spell = 'Spell_result/'  # The output directory of parsing results from Spell
 #AEL------------------------------------------------------
 minEventCount = 2 # The minimum number of events in a bin

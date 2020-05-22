@@ -1,4 +1,27 @@
+import pandas as pd
+import pickle
+import os
+import argparse
+
+
+parser=argparse.ArgumentParser()
+group=parser.add_mutually_exclusive_group()
+group.add_argument("-f","--frontend",action="store_true",help="Used if you want to parse a storm-frontend log file.")
+group.add_argument("-b","--backend",action="store_true",help="Used if you want to parse a storm-backend log file.")
+parser.add_argument("log_file",type=str,help="Name of the file you want to parse.")
+args=parser.parse_args()
+
+#input_dir = '../logfiles/'
+log_file=args.log_file
+if args.frontend:
+        log_type="storm-frontend"
+elif args.backend:
+        log_type="storm-backend"
+else:
+        log_type=input("Specify log_type:")
+
 #CONVERSION TO SEQUENCES
+
 df = pd.read_csv("/container/logparser/parser/Spell_result/{}_structured.csv".format(log_file))#
 eid = df.loc[:,"EventId"]
 comp = df.loc[:,"Component"]

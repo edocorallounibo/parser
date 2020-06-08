@@ -9,9 +9,12 @@ import configparser
 import json
 import logging
 import sys
+sys.path.append('../')
 import argparse
 import pandas as pd
 import re
+import importlib
+importlib.import_module('drain3')
 
 from drain3 import TemplateMiner
 from drain3.file_persistence import FilePersistence

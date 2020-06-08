@@ -32,12 +32,12 @@ args=parser.parse_args()
 log_file=args.log_file
 if args.frontend:
         log_type="storm-frontend"
-        input_dir = 'frontend-server/'
+        input_dir = '/container/logfiles/frontend-server/'
         print("Parsing {} as a frontend log file..".format(log_file))
         log_format = '<Date> <Time> <Pid> - <Level> <Component>: <Content>'#Frontend logformat
 elif args.backend:
         log_type="storm-backend"
-        input_dir = 'backend-server/'
+        input_dir = '/container/logfiles/backend-server/'
         print("Parsing {} as a backend log file..".format(log_file))
         log_format = '<Time> - <Level> <Component> - <Content>'#Backend logformat
 try:

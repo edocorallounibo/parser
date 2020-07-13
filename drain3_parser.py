@@ -128,7 +128,7 @@ print(f"Drain3 started with '{persistence_type}' persistence")
 for idx, line in load_data().iterrows():
         #component=line['Component']
         #level=line['Level']
-        result=template_miner.add_log_message(str(line['Content']))
+        result=template_miner.add_log_message(line['Content'])
         result_json = json.dumps(result)
         print(result_json)
         #result_json=json.dump(result)

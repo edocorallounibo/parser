@@ -123,12 +123,10 @@ else:
 template_miner = TemplateMiner(persistence)
 print(f"Drain3 started with '{persistence_type}' persistence")
 
+content=load_data().loc[:,'Content']
 
-
-for idx, line in load_data().iterrows():
-        #component=line['Component']
-        #level=line['Level']
-        result=template_miner.add_log_message(line['Content'])
+for idx in content.index:
+        result=template_miner.add_log_message(content[idx].strip().split())
         result_json = json.dumps(result)
         print(result_json)
         #result_json=json.dump(result)

@@ -31,13 +31,13 @@ group.add_argument("-b","--backend",action="store_true",help="Used if you want t
 args=parser.parse_args()
 log_file=args.log_file
 if args.frontend:
-        log_type="storm-frontend"
-        input_dir = '/container/logfiles/frontend-server/'
+        log_type="frontend-server"
+        input_dir = 'logfiles/frontend-server/'
         print("Parsing {} as a frontend log file..".format(log_file))
         log_format = '<Date> <Time> <Pid> - <Level> <Component>: <Content>'#Frontend logformat
 elif args.backend:
-        log_type="storm-backend"
-        input_dir = '/container/logfiles/backend-server/'
+        log_type="backend-server"
+        input_dir = 'backend-server/'
         print("Parsing {} as a backend log file..".format(log_file))
         log_format = '<Time> - <Level> <Component> - <Content>'#Backend logformat
 try:
@@ -55,7 +55,7 @@ else:
     
 ################
 def load_data():
-        headers, regex =generate_logformat_regex(log_format)
+        headers, regex = generate_logformat_regex(log_format)
         return log_to_dataframe(os.path.join(input_dir, log_file), regex, headers, log_format)
 
 def log_to_dataframe(logfile, regex, headers, logformat):
@@ -73,7 +73,7 @@ def log_to_dataframe(logfile, regex, headers, logformat):
                     linecount += 1
                 except Exception as e:
                     pass
-        logdf = pd.DataFrame(log_messages, columns=headers)
+        logdf = pd.DataFrame(log_messages, columns=headers, dtype=str)
         logdf.insert(0, 'LineId', None)
         logdf['LineId'] = [i + 1 for i in range(linecount)]
         if os.path.isfile("results/{}/{}_struct.csv".format(log_type,log_file)):
@@ -123,10 +123,12 @@ else:
 template_miner = TemplateMiner(persistence)
 print(f"Drain3 started with '{persistence_type}' persistence")
 
-content=load_data().loc[:,'Content']
 
-for idx in content.index:
-        result=template_miner.add_log_message(content[idx].strip().split())
+
+for idx, line in load_data().iterrows():
+        #component=line['Component']
+        #level=line['Level']
+        result=template_miner.add_log_message(line['Content'])
         result_json = json.dumps(result)
         print(result_json)
         #result_json=json.dump(result)

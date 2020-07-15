@@ -57,7 +57,7 @@ else:
 template_miner = TemplateMiner(persistence)
 print(f"Drain3 started with '{persistence_type}' persistence")
 
-df = pd.read_csv("/container/logparser/parser/results/{}_struct.csv".format(log_file))#
+df = pd.read_csv("/container/logparser/parser/results/{}/{}_struct.csv".format(log_type,log_file))#
 content=df.loc[:,'Content']
 
 for idx in content.index:

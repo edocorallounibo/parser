@@ -40,7 +40,7 @@ def log_to_dataframe(logfile, regex, headers, logformat):
                     linecount += 1
                 except Exception as e:
                     pass
-        logdf = pd.DataFrame(log_messages, columns=headers, dtype=str)
+        logdf = pd.DataFrame(log_messages, columns=headers)
         logdf.insert(0, 'LineId', None)
         logdf['LineId'] = [i + 1 for i in range(linecount)]
         file_out=open("results/{}/{}_struct.csv".format(log_type,log_file),"w")

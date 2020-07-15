@@ -11,9 +11,7 @@ import json
 import logging
 import sys
 sys.path.append('../')
-import os
 import argparse
-import re
 import pandas as pd
 import importlib
 importlib.import_module('drain3')
@@ -40,70 +38,6 @@ elif args.backend:
         input_dir = '/container/logfiles/backend-server/'
         print("Parsing {} as a backend log file..".format(log_file))
         log_format = '<Time> - <Level> <Component> - <Content>'#Backend logformat
-try:
-    os.mkdir("results")
-except OSError:
-    pass
-else:
-    print("results directory created")
-try:
-    os.mkdir("results/{}".format(log_type))
-except OSError:
-    pass
-else:
-    print("{} directory made".format(log_type))
-    
-################
-def load_data():
-        headers, regex = generate_logformat_regex(log_format)
-        return log_to_dataframe(os.path.join(input_dir, log_file), regex, headers, log_format)
-
-def log_to_dataframe(logfile, regex, headers, logformat):
-        """ Function to transform log file to dataframe 
-        """
-        log_messages = []
-        linecount = 0
-        with open(logfile, 'r') as fin:
-            for line in fin.readlines():
-                line = re.sub(r'[^\x00-\x7F]+', '<NASCII>', line)
-                try:
-                    match = regex.search(line.strip())
-                    message = [match.group(header) for header in headers]
-                    log_messages.append(message)
-                    linecount += 1
-                except Exception as e:
-                    pass
-        logdf = pd.DataFrame(log_messages, columns=headers, dtype=str)
-        logdf.insert(0, 'LineId', None)
-        logdf['LineId'] = [i + 1 for i in range(linecount)]
-        if os.path.isfile("results/{}/{}_struct.csv".format(log_type,log_file)):
-            pass
-        else:
-            file_out=open("results/{}/{}_struct.csv".format(log_type,log_file),"w")
-            logdf.to_csv(file_out)
-            file_out.close()
-        return logdf
-def generate_logformat_regex(logformat):
-        """ Function to generate regular expression to split log messages
-        """
-        headers = []
-        splitters = re.split(r'(<[^<>]+>)', logformat)
-        regex = ''
-        for k in range(len(splitters)):
-            if k % 2 == 0:
-                splitter = re.sub(' +', '\s+', splitters[k])
-                regex += splitter
-            else:
-                header = splitters[k].strip('<').strip('>')
-                regex += '(?P<%s>.*?)' % header
-                headers.append(header)
-        regex = re.compile('^' + regex + '$')
-        return headers, regex
-################
-
-
-
-
 
 # persistence_type = "NONE"
 # persistence_type = "KAFKA"
@@ -123,12 +57,13 @@ else:
 template_miner = TemplateMiner(persistence)
 print(f"Drain3 started with '{persistence_type}' persistence")
 
+df = pd.read_csv("/container/logparser/parser/results/{}_struct.csv".format(log_file))#
+content=df.loc[:,'Content']
 
-
-for idx, line in load_data().iterrows():
+for idx in content.index:
         #component=line['Component']
         #level=line['Level']
-        result=template_miner.add_log_message(line['Content'])
+        result=template_miner.add_log_message(content[idx])
         result_json = json.dumps(result)
         print(result_json)
         #result_json=json.dump(result)

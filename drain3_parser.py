@@ -63,7 +63,7 @@ content=df.loc[:,'Content']
 for idx in content.index:
         #component=line['Component']
         #level=line['Level']
-        result=template_miner.add_log_message(content[idx])
+        result=template_miner.add_log_message(content[idx].astype('str'))
         result_json = json.dumps(result)
         print(result_json)
         #result_json=json.dump(result)

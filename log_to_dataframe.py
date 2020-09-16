@@ -13,7 +13,7 @@ log_file=args.log_file
 if args.frontend:
         log_type="frontend-server"
         input_dir = '/container/logfiles/frontend-server/'
-        print("Parsing {} as a frontend log file..".format(log_file))
+        print("Parsing {} with {} format".format(log_file,log_format))
         log_format = '<Date> <Time> <Pid> - <Level> <Component>: <Content>'#Frontend logformat
 elif args.backend:
         log_type="backend-server"

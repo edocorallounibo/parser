@@ -31,13 +31,15 @@ log_file=args.log_file
 if args.frontend:
         log_type="frontend-server"
         input_dir = '/container/drain3/parser/results/frontend-server'
-        print("Parsing {} with {} format".format(log_file,log_format))
         log_format = '<Date> <Time> <Pid> - <Level> <Component>: <Content>'#Frontend logformat
+        print("Parsing {} with [{}] format".format(log_file,log_format))
+        
 elif args.backend:
         log_type="backend-server"
         input_dir = '/container/drain3/parser/results/backend-server/'
-        print("Parsing {} with {} format".format(log_file,log_format))
         log_format = '<Time> - <Level> <Component> - <Content>'#Backend logformat
+        print("Parsing {} with [{}] format".format(log_file,log_format))
+        
 
 # persistence_type = "NONE"
 # persistence_type = "KAFKA"

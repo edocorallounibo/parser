@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 
 """
-Created on Fri May 22 17:36:45 2020
-
-@author: edoardo
+Author      : edocorallounibo
+Author_email: edoardo.corallo@gmail.com
+License     : MIT
 """
 import configparser
 import json

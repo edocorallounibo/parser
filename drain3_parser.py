@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 
 """
-Description : Example of using Drain3 with Kafka persistence
-Author      : David Ohana, Moshik Hershcovitch, Eran Raichstein
-Author_email: david.ohana@ibm.com, moshikh@il.ibm.com, eranra@il.ibm.com
+Author      : edocorallounibo
+Author_email: edoardo.corallo@gmail.com
 License     : MIT
 """
 import configparser
@@ -67,8 +66,8 @@ for idx in content.index:
         #level=line['Level']
         result=template_miner.add_log_message(content[idx])
         result_json = json.dumps(result)
-        print(result_json)
-        #result_json=json.dump(result)
+        #print(result_json)
+        
         
 print("Clusters:")
 for cluster in template_miner.drain.clusters:

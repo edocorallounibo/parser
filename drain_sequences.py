@@ -97,7 +97,7 @@ for x in comp_clustid_abnormal.keys():
 abnormal.close()
 normal=open("results/{}/{}_normal".format(log_type,log_file),"w")
 for x in comp_clustid.keys():
-    if (len(comp_clustid[x])>=10):
+    if (len(comp_clustid[x])>10):
          for i in range(len(comp_clustid[x])): 
               normal.write(str(comp_clustid[x][i]))
               normal.write(" ")
@@ -112,7 +112,7 @@ for x in comp_time.keys():
 abnormal.close()
 normal=open("results/{}/{}_timestamps_normal".format(log_type,log_file),"w")
 for x in comp_time.keys():
-    if (len(comp_time[x])>=10):
+    if (len(comp_time[x])>10):
          for i in range(len(comp_time[x])): 
               normal.write(str(comp_time[x][i]))
               normal.write(" ")

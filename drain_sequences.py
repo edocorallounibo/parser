@@ -57,7 +57,9 @@ time=df.loc[:,"Time"]
 comp_clustid={}
 comp_time={}
 comp_clustid_abnormal={}
-comp_time_abnormal={}#WIP:only based on "ERROR" level
+comp_time_abnormal={}
+fail_pattern=re.compile(r'FAILURE')
+error_pattern=re.compile(r'ERROR')
 for i in content.index:
     result = template_miner.add_log_message(content[i])
     clustid=re.sub(r'A0*','',result["cluster_id"])
@@ -80,7 +82,9 @@ for x in comp_time.keys():
         else:
             comp_time[x][0]='0'
 for i in comp.index:
-    if level[i]=="ERROR":
+    match_error=re.search(error_pattern,content[i])
+    match_failure=re.search(fail_pattern,content[i])
+    if match_error or match_failure:
         if comp[i] in comp_clustid:
             comp_clustid_abnormal[str(comp[i])]=comp_clustid[str(comp[i])]
             comp_time_abnormal[str(comp[i])]=comp_time[str(comp[i])]

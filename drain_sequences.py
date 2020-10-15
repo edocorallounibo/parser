@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 
 """
-Author      : edocorallounibo
+Author      : edocorallo
 Author_email: edoardo.corallo@gmail.com
 License     : MIT
 """

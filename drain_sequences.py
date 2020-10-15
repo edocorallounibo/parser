@@ -21,6 +21,7 @@ from drain3.kafka_persistence import KafkaPersistence
 parser=argparse.ArgumentParser(prog='drain_sequences')
 group=parser.add_mutually_exclusive_group()
 parser.add_argument("log_file",type=str,help="Name of the file you want to parse.")
+parser.add_argument("-window_size",default=10,type=int,help="Sequences will be at least (window_size)+1 long")
 group.add_argument("-f","--frontend",action="store_true",help="Used if you want to parse a storm-frontend log file.")
 group.add_argument("-b","--backend",action="store_true",help="Used if you want to parse a storm-backend log file.")
 args=parser.parse_args()
@@ -101,7 +102,7 @@ for x in comp_clustid_abnormal.keys():
 abnormal.close()
 normal=open("results/{}/{}_normal".format(log_type,log_file),"w")
 for x in comp_clustid.keys():
-    if (len(comp_clustid[x])>10):
+    if (len(comp_clustid[x])>args.window_size):
          for i in range(len(comp_clustid[x])): 
               normal.write(str(comp_clustid[x][i]))
               normal.write(" ")
@@ -116,7 +117,7 @@ for x in comp_time.keys():
 abnormal.close()
 normal=open("results/{}/{}_timestamps_normal".format(log_type,log_file),"w")
 for x in comp_time.keys():
-    if (len(comp_time[x])>10):
+    if (len(comp_time[x])>args.window_size):
          for i in range(len(comp_time[x])): 
               normal.write(str(comp_time[x][i]))
               normal.write(" ")

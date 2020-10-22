@@ -5,8 +5,8 @@ Created on Sun Oct 18 17:56:43 2020
 
 @author: edoardo
 """
-in=input("input")
-out=input("output")
+_in=input("input")
+_out=input("output")
 
 d={}
 uniq=[]
@@ -24,8 +24,8 @@ with open('/container/drain3/parser/results/frontend-server/merged_abnormal','r'
                 uniq.append(char)
 for i in range(0,len(uniq)):
     d[str(uniq[i])]=str(i+1)
-fout=open('/container/DeepLog_no_tensorboard/data/{}','w')
-with open('/container/DeepLog_no_tensorboard/data/{}','r') as f:
+fout=open('/container/DeepLog_no_tensorboard/data/{}'.format(_out),'w')
+with open('/container/DeepLog_no_tensorboard/data/{}'.format(_in),'r') as f:
     for line in f:
         for f_key in d.keys():
             if f_key in line:

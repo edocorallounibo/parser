@@ -5,8 +5,9 @@ Created on Sun Oct 18 17:56:43 2020
 
 @author: edoardo
 """
-_in=input("input")
-_out=input("output")
+import re
+_in=input("input file :")
+_out=input("output file :")
 
 d={}
 uniq=[]
@@ -29,6 +30,10 @@ with open('/container/DeepLog_no_tensorboard/data/{}'.format(_in),'r') as f:
     for line in f:
         for f_key in d.keys():
             if f_key in line:
-                line = line.replace(f_key,d[f_key])
+                pattern = re.compile(r'\s({})(\s|\n)'.format(f_key))
+                line = re.sub(pattern,' ' +d[f_key]+' ',line)
+                line = re.sub(pattern,' ' +d[f_key]+' ',line)
+        if line[-1]!='\n':
+            line=line+'\n'
         fout.write(line)        
 fout.close()

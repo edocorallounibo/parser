@@ -57,7 +57,7 @@ post_proc_dict={"13":"1",#process_request : Connection from <IP>
                 "68":"31",
                 "56":"55",#rpcResponseHandler_Ls : ERROR: XML-RPC Fault: RPC failed at server. Failed to invoke method ls in class...
                 "69":"55",
-                "80":"55",
+                "70":"55",               
                 }
 
 for line in file_in:
